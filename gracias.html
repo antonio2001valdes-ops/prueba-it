@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SynergiaBIO · ¡Gracias!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: radial-gradient(circle at 20% 50%, #0a1f12 0%, #050a08 40%, #081018 100%);
+            color: #e2e8f0;
+            overflow-x: hidden;
+            position: relative;
+            padding-bottom: 120px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =========================================
+           LUCIÉRNAGAS DE COLORES
+           ========================================= */
+        #fireflies-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .firefly {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatFirefly infinite ease-in-out;
+        }
+
+        @keyframes floatFirefly {
+            0% { transform: translate(0, 0) scale(0.8); opacity: 0; }
+            20% { opacity: 1; }
+            50% { transform: translate(var(--tx), var(--ty)) scale(1.2); }
+            80% { opacity: 1; }
+            100% { transform: translate(var(--tx2), var(--ty2)) scale(0.8); opacity: 0; }
+        }
+
+        /* =========================================
+           CONFETI
+           ========================================= */
+        #confetti-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            top: -20px;
+            opacity: 0;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* =========================================
+           HEADER
+           ========================================= */
+        .header {
+            position: relative;
+            z-index: 100;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            background: rgba(5, 10, 8, 0.6);
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-img:hover { transform: scale(1.05); }
+
+        /* =========================================
+           CONTENIDO CENTRAL
+           ========================================= */
+        .main-content {
+            position: relative;
+            z-index: 10;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        /* Icono de check animado */
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4ade80, #16a34a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            margin-bottom: 32px;
+            box-shadow: 0 0 60px rgba(74, 222, 128, 0.4);
+            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+            position: relative;
+        }
+
+        .success-icon::before {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            border: 2px solid rgba(74, 222, 128, 0.3);
+            animation: ripple 2s ease-out infinite;
+        }
+
+        .success-icon::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            border: 2px solid rgba(74, 222, 128, 0.15);
+            animation: ripple 2s ease-out 0.5s infinite;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .success-title {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffffff 0%, #4ade80 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        .success-subtitle {
+            font-size: 22px;
+            font-weight: 500;
+            color: #94a3b8;
+            margin-bottom: 12px;
+            animation: slideUp 0.8s ease-out 0.6s both;
+        }
+
+        .success-message {
+            font-size: 16px;
+            color: #64748b;
+            max-width: 500px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            animation: slideUp 0.8s ease-out 0.8s both;
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(30px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Lema */
+        .company-motto {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #4ade80;
+            padding: 10px 20px;
+            border-left: 3px solid #4ade80;
+            margin-bottom: 32px;
+            background: linear-gradient(90deg, rgba(74, 222, 128, 0.08), transparent);
+            animation: slideUp 0.8s ease-out 1s both;
+        }
+
+        /* Info card */
+        .info-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            border-radius: 20px;
+            padding: 28px 36px;
+            margin-bottom: 32px;
+            backdrop-filter: blur(20px);
+            animation: slideUp 0.8s ease-out 1.2s both;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .info-card-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            color: #94a3b8;
+            font-size: 15px;
+        }
+
+        .info-card-row:not(:last-child) {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .info-card-row .icon {
+            font-size: 20px;
+        }
+
+        .info-card-row strong {
+            color: #e2e8f0;
+            margin-left: auto;
+        }
+
+        /* Botón volver */
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #4ade80, #16a34a);
+            color: white;
+            border: none;
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+            box-shadow: 0 8px 30px rgba(74, 222, 128, 0.3);
+            animation: slideUp 0.8s ease-out 1.4s both;
+        }
+
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(74, 222, 128, 0.5);
+        }
+
+        /* =========================================
+           PASTO ANIMADO
+           ========================================= */
+        .grass-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            z-index: 5;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .grass-layer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+        }
+
+        .grass-blade {
+            position: absolute;
+            bottom: 0;
+            width: 6px;
+            border-radius: 50% 50% 0 0;
+            transform-origin: bottom center;
+        }
+
+        .grass-back .grass-blade { animation: swayBack 4s ease-in-out infinite; }
+        .grass-mid .grass-blade { animation: swayMid 3.5s ease-in-out infinite; }
+        .grass-front .grass-blade { animation: swayFront 3s ease-in-out infinite; }
+
+        @keyframes swayBack {
+            0%, 100% { transform: rotate(-3deg) skewX(-2deg); }
+            50% { transform: rotate(5deg) skewX(3deg); }
+        }
+        @keyframes swayMid {
+            0%, 100% { transform: rotate(-5deg) skewX(-3deg); }
+            50% { transform: rotate(7deg) skewX(4deg); }
+        }
+        @keyframes swayFront {
+            0%, 100% { transform: rotate(-7deg) skewX(-4deg); }
+            50% { transform: rotate(9deg) skewX(5deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .success-title { font-size: 40px; }
+            .success-subtitle { font-size: 18px; }
+            .success-icon { width: 100px; height: 100px; font-size: 50px; }
+            .info-card { padding: 20px 24px; }
+            .header { padding: 16px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Luciérnagas de colores -->
+    <div id="fireflies-container"></div>
+
+    <!-- Confeti -->
+    <div id="confetti-container"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <img src="logo.png" alt="SynergiaBIO Logo" class="logo-img">
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="main-content">
+
+        <div class="success-icon">✓</div>
+
+        <h1 class="success-title">¡Gracias!</h1>
+        <p class="success-subtitle">Tu ticket de soporte ha sido creado exitosamente</p>
+        <p class="success-message">
+            Hemos recibido tu mensaje y nuestro equipo técnico se pondrá en contacto contigo a la brevedad. 
+            Revisa tu correo corporativo para recibir la respuesta.
+        </p>
+
+        <div class="company-motto">
+            El conocimiento al servicio de la vida
+        </div>
+
+        <div class="info-card">
+            <div class="info-card-row">
+                <span class="icon">📧</span>
+                <span>Respuesta en</span>
+                <strong>24 horas</strong>
+            </div>
+            <div class="info-card-row">
+                <span class="icon"></span>
+                <span>Correo de contacto</span>
+                <strong>jose.valdes@synergiabio.com</strong>
+            </div>
+            <div class="info-card-row">
+                <span class="icon">🕐</span>
+                <span>Horario de atención</span>
+                <strong>Lun - Vie, 8:00AM - 04:30PM</strong>
+            </div>
+        </div>
+
+        <a href="index.html" class="btn-home">
+            🏠 Volver al inicio
+        </a>
+
+    </main>
+
+    <!-- Pasto animado -->
+    <div class="grass-container" id="grassContainer">
+        <div class="grass-layer grass-back" id="grassBack"></div>
+        <div class="grass-layer grass-mid" id="grassMid"></div>
+        <div class="grass-layer grass-front" id="grassFront"></div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. LUCIÉRNAGAS DE COLORES
+        // ==========================================
+        const firefliesContainer = document.getElementById('fireflies-container');
+        const fireflyCount = 45;
+
+        const fireflyColors = [
+            { bg: '#d9f99d', shadow1: 'rgba(217, 249, 157, 0.8)', shadow2: 'rgba(163, 230, 53, 0.4)' },
+            { bg: '#fde047', shadow1: 'rgba(253, 224, 71, 0.8)', shadow2: 'rgba(234, 179, 8, 0.4)' },
+            { bg: '#fbbf24', shadow1: 'rgba(251, 191, 36, 0.8)', shadow2: 'rgba(217, 119, 6, 0.4)' },
+            { bg: '#a7f3d0', shadow1: 'rgba(167, 243, 208, 0.8)', shadow2: 'rgba(52, 211, 153, 0.4)' },
+            { bg: '#c4b5fd', shadow1: 'rgba(196, 181, 253, 0.8)', shadow2: 'rgba(139, 92, 246, 0.4)' },
+            { bg: '#fca5a5', shadow1: 'rgba(252, 165, 165, 0.8)', shadow2: 'rgba(248, 113, 113, 0.4)' },
+            { bg: '#93c5fd', shadow1: 'rgba(147, 197, 253, 0.8)', shadow2: 'rgba(96, 165, 250, 0.4)' },
+        ];
+
+        for (let i = 0; i < fireflyCount; i++) {
+            const firefly = document.createElement('div');
+            firefly.classList.add('firefly');
+            
+            const size = Math.random() * 5 + 2; 
+            firefly.style.width = `${size}px`;
+            firefly.style.height = `${size}px`;
+            
+            const color = fireflyColors[Math.floor(Math.random() * fireflyColors.length)];
+            firefly.style.background = color.bg;
+            firefly.style.boxShadow = `0 0 ${size + 4}px 2px ${color.shadow1}, 0 0 ${size + 12}px 5px ${color.shadow2}`;
+            
+            firefly.style.left = `${Math.random() * 100}%`;
+            firefly.style.top = `${Math.random() * 85}%`;
+            
+            const tx = (Math.random() - 0.5) * 200;
+            const ty = (Math.random() - 0.5) * 200;
+            const tx2 = (Math.random() - 0.5) * 300;
+            const ty2 = (Math.random() - 0.5) * 300;
+            firefly.style.setProperty('--tx', `${tx}px`);
+            firefly.style.setProperty('--ty', `${ty}px`);
+            firefly.style.setProperty('--tx2', `${tx2}px`);
+            firefly.style.setProperty('--ty2', `${ty2}px`);
+            
+            const duration = Math.random() * 15 + 10;
+            const delay = Math.random() * 10;
+            firefly.style.animationDuration = `${duration}s`;
+            firefly.style.animationDelay = `${delay}s`;
+            
+            firefliesContainer.appendChild(firefly);
+        }
+
+        // ==========================================
+        // 2. GENERAR PASTO
+        // ==========================================
+        function generateGrass(layerId, count, heightRange, colorRange) {
+            const layer = document.getElementById(layerId);
+            
+            for (let i = 0; i < count; i++) {
+                const blade = document.createElement('div');
+                blade.classList.add('grass-blade');
+                
+                const height = Math.random() * (heightRange[1] - heightRange[0]) + heightRange[0];
+                const width = Math.random() * 4 + 3;
+                const left = (i / count) * 100 + (Math.random() - 0.5) * 2;
+                
+                const hue = colorRange[0] + Math.random() * (colorRange[1] - colorRange[0]);
+                const saturation = 40 + Math.random() * 30;
+                const lightness = colorRange[2] + Math.random() * 15;
+                
+                blade.style.height = `${height}px`;
+                blade.style.width = `${width}px`;
+                blade.style.left = `${left}%`;
+                blade.style.background = `linear-gradient(to top, hsl(${hue}, ${saturation}%, ${lightness - 10}%), hsl(${hue}, ${saturation}%, ${lightness}%))`;
+                
+                const delay = Math.random() * 3;
+                const duration = 3 + Math.random() * 2;
+                blade.style.animationDelay = `${delay}s`;
+                blade.style.animationDuration = `${duration}s`;
+                
+                layer.appendChild(blade);
+            }
+        }
+
+        generateGrass('grassBack', 120, [60, 100], [100, 130, 20]);
+        generateGrass('grassMid', 100, [50, 85], [110, 140, 25]);
+        generateGrass('grassFront', 80, [40, 70], [120, 150, 30]);
+
+        // ==========================================
+        // 3. CONFETI 🎉
+        // ==========================================
+        const confettiContainer = document.getElementById('confetti-container');
+        const confettiColors = ['#4ade80', '#fde047', '#fbbf24', '#a7f3d0', '#c4b5fd', '#fca5a5', '#93c5fd', '#fb923c', '#f472b6'];
+        const confettiShapes = ['square', 'circle', 'rectangle'];
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            
+            const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+            const shape = confettiShapes[Math.floor(Math.random() * confettiShapes.length)];
+            const size = Math.random() * 10 + 6;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 3 + 2.5;
+            const delay = Math.random() * 0.5;
+            
+            confetti.style.left = `${left}%`;
+            confetti.style.width = `${size}px`;
+            confetti.style.height = shape === 'rectangle' ? `${size * 1.5}px` : `${size}px`;
+            confetti.style.background = color;
+            confetti.style.animationDuration = `${duration}s`;
+            confetti.style.animationDelay = `${delay}s`;
+            
+            if (shape === 'circle') {
+                confetti.style.borderRadius = '50%';
+            } else if (shape === 'rectangle') {
+                confetti.style.borderRadius = '2px';
+            } else {
+                confetti.style.borderRadius = '2px';
+            }
+            
+            confetti.style.boxShadow = `0 0 6px ${color}80`;
+            
+            confettiContainer.appendChild(confetti);
+            
+            // Eliminar después de la animación
+            setTimeout(() => {
+                confetti.remove();
+            }, (duration + delay) * 1000);
+        }
+
+        // Lanzar confeti en ráfagas
+        function launchConfetti() {
+            // Primera ráfaga grande
+            for (let i = 0; i < 80; i++) {
+                setTimeout(() => createConfetti(), i * 30);
+            }
+            
+            // Segunda ráfaga
+            setTimeout(() => {
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => createConfetti(), i * 40);
+                }
+            }, 1500);
+            
+            // Tercera ráfaga más pequeña
+            setTimeout(() => {
+                for (let i = 0; i < 30; i++) {
+                    setTimeout(() => createConfetti(), i * 50);
+                }
+            }, 3000);
+        }
+
+        // Iniciar confeti al cargar
+        window.addEventListener('load', () => {
+            setTimeout(launchConfetti, 300);
+        });
+
+        // Confeti adicional al hacer clic en cualquier parte
+        document.addEventListener('click', (e) => {
+            for (let i = 0; i < 15; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                const color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                const size = Math.random() * 8 + 4;
+                
+                confetti.style.left = `${e.clientX}px`;
+                confetti.style.top = `${e.clientY}px`;
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.background = color;
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                confetti.style.boxShadow = `0 0 6px ${color}80`;
+                confetti.style.animationDuration = `${Math.random() * 2 + 1.5}s`;
+                
+                // Dirección aleatoria desde el click
+                const tx = (Math.random() - 0.5) * 200;
+                confetti.style.setProperty('--tx', `${tx}px`);
+                confetti.style.transform = `translateX(${tx}px)`;
+                
+                confettiContainer.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        });
+    </script>
+
+</body>
+</html>
